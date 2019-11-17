@@ -2,8 +2,14 @@
 
 This github repository contains a simple shell script that can be used to log the capacity of your laptop battery. It relies on data that is made available by Linux under `/sys/class/power_supply/` and makes a timestamped copy of this data in a specified file every time the script is called (but only if the data has changed). Only data-logging, nothing else. But this gives quite interesting plots after a few years of running:
 
-![Plot of battery.log with gnuplot](battery_small.png)
+[![Plot of battery.log with gnuplot](battery_small.png)](battery_large.png)
 
+A few things to note:
+* This plot contains data (capacity and level) for two batteries, alternating between the two.
+* The capacity decreases when the battery is used and less so when it is not being used (unsurprisingly).
+* The calibration (slope of the capacity curve as function of time) is very different for the two batteries.
+* The capacity of battery 2 increases abruptly after it is drained completely. This seems to have an impact on the calibration.
+* (Only visible in the higher-resolution version.) The capacity of battery 1 suddenly decreases when it is fully drained.
 
 ## Installation.
 Without any warrenties. In the following, `[PATH]` is the path to the script.
