@@ -4,11 +4,16 @@
 #
 # (85)
 #
-# $Id: battery_log.sh 3001 2018-09-08 17:05:22Z eis $
+# $Id: battery_log.sh 3327 2019-12-05 21:20:33Z eis $
 
 
-# config
-FILE_LOG=/tmp/battery.log
+# log file
+FILE_LOG=/tmp/battery.log # <- SPEFICY LOCATION FOR LOG FILE HERE
+
+# which battery to log
+BAT=BAT0
+
+# temporary files
 FILE_NEWLINE=/tmp/battery-new.log
 FILE_LASTSTAMP=/tmp/battery-stamp.log
 FILE_LASTLINE_CHECK=/tmp/battery-last-short.log
@@ -29,17 +34,19 @@ touch $FILE_LOCK
 
 # collect data for new line
 rm -f $FILE_NEWLINE
-cat /sys/class/power_supply/BAT0/serial_number      | tr "\n" " " >>$FILE_NEWLINE
-cat /sys/class/power_supply/BAT0/energy_now         | tr "\n" " " >>$FILE_NEWLINE
-cat /sys/class/power_supply/BAT0/energy_full        | tr "\n" " " >>$FILE_NEWLINE
-cat /sys/class/power_supply/BAT0/energy_full_design | tr "\n" " " >>$FILE_NEWLINE
-cat /sys/class/power_supply/BAT0/status             | tr "\n" " " >>$FILE_NEWLINE
+cat /sys/class/power_supply/$BAT/serial_number      | tr "\n" " " >>$FILE_NEWLINE
+cat /sys/class/power_supply/$BAT/energy_now         | tr "\n" " " >>$FILE_NEWLINE
+cat /sys/class/power_supply/$BAT/energy_full        | tr "\n" " " >>$FILE_NEWLINE
+cat /sys/class/power_supply/$BAT/energy_full_design | tr "\n" " " >>$FILE_NEWLINE
+cat /sys/class/power_supply/$BAT/status             | tr "\n" " " >>$FILE_NEWLINE
 cat /sys/class/power_supply/AC/online               | tr "\n" " " >>$FILE_NEWLINE
-cat /sys/class/power_supply/BAT0/power_now          | tr "\n" " " >>$FILE_NEWLINE
+cat /sys/class/power_supply/$BAT/power_now          | tr "\n" " " >>$FILE_NEWLINE
+# ignore the following when checking if values changed
 rm -f $FILE_NEWLINE_CHECK
 cp $FILE_NEWLINE $FILE_NEWLINE_CHECK
-cat /sys/class/power_supply/BAT0/voltage_now        | tr "\n" " " >>$FILE_NEWLINE
+cat /sys/class/power_supply/$BAT/voltage_now        | tr "\n" " " >>$FILE_NEWLINE
 cat /sys/class/hwmon/hwmon0/temp1_input             | tr "\n" " " >>$FILE_NEWLINE
+# 
 echo $1 >>$FILE_NEWLINE
 echo $1 >>$FILE_NEWLINE_CHECK 
 
